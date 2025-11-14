@@ -1,7 +1,6 @@
 import UserCard from "@/components/common/UserCard";
 import Header from "@/components/layout/Header";
 import { UserProps } from "@/interfaces";
-import Posts from '../posts/index';
 
 const Users: React.FC<{ users: UserProps[] }> = ({ users }) => {
   return (
@@ -37,11 +36,11 @@ const Users: React.FC<{ users: UserProps[] }> = ({ users }) => {
 
 export async function getStaticProps() {
   const response = await fetch("https://jsonplaceholder.typicode.com/users")
-  const Posts = await response.json()
+  const posts = await response.json()
 
   return {
     props: {
-      Posts
+      posts
     }
   }
 }
