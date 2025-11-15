@@ -1,16 +1,23 @@
 import UserCard from "@/components/common/UserCard";
 import Header from "@/components/layout/Header";
-import { UserProps } from "@/interfaces";
-import { PostProps } from '../../interfaces/index';
+import { UserData, UserProps } from "@/interfaces"; 
+import { useState } from "react"; 
+import UserModal from "@/components/common/UserModal"; 
 
 const Users: React.FC<{ posts: UserProps[] }> = ({ posts }) => {
+  const [isModalOpen, setModalOpen] = useState(false); 
+  const [user, setUser] = useState<UserData | null>(null); 
+
+   const handleAddUser = (newUser: UserData) => {  
+    setUser({ ...newUser, id: posts.length + 1 });
+  };
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
       <main className="p-4 flex-grow">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-semibold">Users</h1>
-          <button className="bg-blue-700 px-4 py-2 rounded-full text-white hover:bg-blue-800 transition">
+          <button  onClick={() => setModalOpen(true)} className="bg-blue-700 px-4 py-2 rounded-full text-white hover:bg-blue-800 transition">
             Add User
           </button>
         </div>
@@ -30,6 +37,9 @@ const Users: React.FC<{ posts: UserProps[] }> = ({ posts }) => {
           ))}
         </div>
       </main>
+      {isModalOpen && (  // ← ADDED MODAL RENDERING
+        <UserModal onClose={() => setModalOpen(false)} onSubmit={handleAddUser} />
+      )}
     </div>
      );
 }
